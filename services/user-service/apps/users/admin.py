@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from .models import User, UserProfile
-s
+
 
 class UserAdmin(BaseUserAdmin):
     # Какие поля отображать в списке
