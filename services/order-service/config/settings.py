@@ -8,8 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-tnkef4x^@q$86*#72qk(y21nqcrp32j!%4k&z#4rf&q$iw-2t0"
 
 
-DDEBUG = True
+DEBUG = True
+
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+
+
+# Application definition
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -23,16 +27,15 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
-    "apps.orders",
+    # "apps.orders",
 ]
-
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -40,7 +43,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "apps.orders.middleware.JWTAuthenticationMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -52,7 +54,6 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
-                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -60,6 +61,11 @@ TEMPLATES = [
         },
     },
 ]
+
+WSGI_APPLICATION = "config.wsgi.application"
+
+
+# Database
 
 DATABASES = {
     "default": {
@@ -70,13 +76,11 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
     ],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 20,
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -86,22 +90,35 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
 ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ALL_ORIGINS = True
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
+
 TIME_ZONE = "UTC"
+
 USE_I18N = True
+
 USE_TZ = True
 
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
+
 STATIC_URL = "static/"
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Service URLs
 PRODUCT_SERVICE_URL = "http://localhost:8001"
 CART_SERVICE_URL = "http://localhost:8002"
 USER_SERVICE_URL = "http://localhost:8004"
-
-# Redis settings
+# Redis
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_DB = 0
