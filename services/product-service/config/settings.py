@@ -1,14 +1,10 @@
 import os
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-SECRET_KEY = "django-insecure-tnkef4x^@q$86*#72qk(y21nqcrp32j!%4k&z#4rf&q$iw-2t0"
-
-
-DDEBUG = True
+SECRET_KEY = "product-service-secret-key-change-in-production"
+DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 DJANGO_APPS = [
@@ -23,10 +19,11 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
-    "apps.orders",
+    "apps.products",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -40,7 +37,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "apps.orders.middleware.JWTAuthenticationMiddleware",
+    "apps.products.middleware.JWTAuthenticationMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -64,13 +61,13 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR.parent.parent / "databases" / "order.db",
+        "NAME": BASE_DIR.parent.parent / "databases" / "product.db",
     }
 }
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
@@ -96,12 +93,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Service URLs
-PRODUCT_SERVICE_URL = "http://localhost:8001"
-CART_SERVICE_URL = "http://localhost:8002"
-USER_SERVICE_URL = "http://localhost:8004"
-
-# Redis settings
+# Redis настройки
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_DB = 0
